@@ -1,5 +1,4 @@
 {
-  "excludeFiles": ["src/ngLocale/**"],
   "disallowKeywords": ["with"],
   "disallowKeywordsOnNewLine": ["else"],
   "disallowMixedSpacesAndTabs": true,
@@ -44,5 +43,6 @@
   "requireSpacesInFunction": {
     "beforeOpeningCurlyBrace": true
   },
+  "requireCamelCaseOrUpperCaseIdentifiers": true,
   "validateLineBreaks": "LF"
 }
