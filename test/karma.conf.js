@@ -28,7 +28,8 @@ module.exports = function(config) {
     // coverage reporter generates the coverage
     reporters: [
       'progress',
-      'coverage'
+      'coverage',
+      'coveralls'
     ],
 
     preprocessors: {
@@ -39,8 +40,8 @@ module.exports = function(config) {
     },
 
     coverageReporter: {
-      type : 'lcov',
-      dir : 'coverage/'
+      type: 'lcov',
+      dir: 'coverage/'
     },
 
     // list of files to exclude
