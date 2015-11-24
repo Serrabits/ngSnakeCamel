@@ -1,0 +1,37 @@
+{
+  "name": "ng-snake-camel",
+  "version": "0.0.1",
+  "description": "Convert JSON to Camel or Snake is simple",
+  "main": "ng-snake-camel.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "jasmine-core": "^2.3.4",
+    "jscs": "^2.6.0",
+    "karma": "^0.13.15",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-jasmine": "^0.3.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "karma start test/karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Serrabits/ngSnakeCamel.git"
+  },
+  "keywords": [
+    "snakecase",
+    "camelcase",
+    "json",
+    "angular",
+    "filter"
+  ],
+  "author": "Junior Conte <juniorcnt@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/Serrabits/ngSnakeCamel/issues"
+  },
+  "homepage": "https://github.com/Serrabits/ngSnakeCamel",
+  "license": "MIT"
+}
