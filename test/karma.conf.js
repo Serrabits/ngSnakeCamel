@@ -25,6 +25,24 @@ module.exports = function(config) {
       'test/**/*.js'
     ],
 
+    // coverage reporter generates the coverage
+    reporters: [
+      'progress',
+      'coverage'
+    ],
+
+    preprocessors: {
+      // source files, that you wanna generate coverage for
+      // do not include tests or libraries
+      // (these files will be instrumented by Istanbul)
+      'ng-snake-camel.js': ['coverage']
+    },
+
+    coverageReporter: {
+      type : 'lcov',
+      dir : 'coverage/'
+    },
+
     // list of files to exclude
     exclude: [
     ],
@@ -32,17 +50,20 @@ module.exports = function(config) {
     // web server port
     port: 8080,
 
+    // cli runner port
+    runnerPort: 9100,
+
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [
-      'Chrome'
+      'PhantomJS'
     ],
 
     // Which plugins to enable
     plugins: [
-      "karma-chrome-launcher",
-      "karma-phantomjs-launcher",
-      "karma-jasmine"
+      'karma-phantomjs-launcher',
+      'karma-coverage',
+      'karma-jasmine'
     ],
 
     // Continuous Integration mode
