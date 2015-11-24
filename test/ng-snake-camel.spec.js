@@ -70,6 +70,10 @@ describe("ng-snake-camel", function() {
       expect(isJson(jsonInvalid)).toBeFalsy();
     });
 
+    it('Should be return undefined case input not present', function() {
+      expect(isJson()).toBeUndefined();
+    });
+
   });
 
   describe('to Snakecase', function() {
@@ -99,6 +103,10 @@ describe("ng-snake-camel", function() {
       $log.assertEmpty();
     });
 
+    it('Should be return undefined case input not present', function() {
+      expect(snakelize()).toBeUndefined();
+    });
+
   });
 
   describe('to Camelcase', function() {
@@ -126,6 +134,10 @@ describe("ng-snake-camel", function() {
       $log.reset();
       camelize(jsonValid);
       $log.assertEmpty();
+    });
+
+     it('Should be return undefined case input not present', function() {
+      expect(camelize()).toBeUndefined();
     });
 
   });
