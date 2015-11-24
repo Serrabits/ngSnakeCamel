@@ -36,17 +36,20 @@ module.exports = function(config) {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'ng-snake-camel.js': ['coverage']
+      'ng-snake-camel.js': [
+        'coverage'
+      ]
     },
 
     coverageReporter: {
-      type: 'lcov',
-      dir: 'coverage/'
+      dir: 'coverage/',
+      reporters: [
+        {
+          type: 'lcov',
+          subdir: '.'
+        }
+      ]
     },
-
-    // list of files to exclude
-    exclude: [
-    ],
   
     // web server port
     port: 8080,
