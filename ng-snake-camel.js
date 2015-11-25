@@ -49,7 +49,7 @@
     };
   };
 
-  angular.module('ng-snake-camel', [])
+  angular.module('ngSnakeCamel', [])
     .filter('snakelize', snakelize)
     .filter('camelize', camelize);
 

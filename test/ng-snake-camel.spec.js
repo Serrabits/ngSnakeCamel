@@ -1,6 +1,6 @@
-describe("ng-snake-camel", function() {
+describe("ngSnakeCamel", function() {
 
-  beforeEach(module('ng-snake-camel'));
+  beforeEach(module('ngSnakeCamel'));
 
   var camelize;
   var snakelize;
