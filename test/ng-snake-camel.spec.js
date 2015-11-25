@@ -4,7 +4,6 @@ describe("ng-snake-camel", function() {
 
   var camelize;
   var snakelize;
-  var isJson;
   var snaked;
   var camelized;
   var jsonValid;
@@ -14,7 +13,6 @@ describe("ng-snake-camel", function() {
   beforeEach(inject(function($filter, _$log_) {
 
     $log = _$log_;
-    isJson = $filter('isJson');
     camelize = $filter('camelize');
     snakelize = $filter('snakelize');
 
@@ -60,22 +58,6 @@ describe("ng-snake-camel", function() {
 
   }));
 
-  describe('json validator', function() {
-
-    it('Should be return true case json is valid', function() {
-      expect(isJson(jsonValid)).toBeTruthy();
-    });
-
-    it('Should be return false case json is not valid', function() {
-      expect(isJson(jsonInvalid)).toBeFalsy();
-    });
-
-    it('Should be return undefined case input not present', function() {
-      expect(isJson()).toBeUndefined();
-    });
-
-  });
-
   describe('to Snakecase', function() {
 
     it('Should convert Object to snake_case', function() {
@@ -94,7 +76,7 @@ describe("ng-snake-camel", function() {
     it('Should generate a warn case json is invalid', function() {
       $log.reset();
       snakelize(jsonInvalid);
-      expect($log.warn.logs[0][0]).toBe('Snakelize receive a invalid JSON');
+      expect($log.warn.logs[0][0]).toBe('Snakelize received a invalid JSON');
     });
 
     it('Should not generate a warn case json is valid', function() {
@@ -127,7 +109,7 @@ describe("ng-snake-camel", function() {
     it('Should generate a warn case json is invalid', function() {
       $log.reset();
       camelize(jsonInvalid);
-      expect($log.warn.logs[0][0]).toBe('Camelize receive a invalid JSON');
+      expect($log.warn.logs[0][0]).toBe('Camelize received a invalid JSON');
     });
 
     it('Should not generate a warn case json is valid', function() {
