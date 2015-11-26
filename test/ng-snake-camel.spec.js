@@ -1,7 +1,5 @@
 describe("ngSnakeCamel", function() {
 
-  beforeEach(module('ngSnakeCamel'));
-
   var camelize;
   var snakelize;
   var snaked;
@@ -9,56 +7,62 @@ describe("ngSnakeCamel", function() {
   var jsonValid;
   var jsonInvalid;
   var $log;
+  var $http;
 
-  beforeEach(inject(function($filter, _$log_) {
+  beforeEach(function() {
 
-    $log = _$log_;
-    camelize = $filter('camelize');
-    snakelize = $filter('snakelize');
+    module('ngSnakeCamel');
 
-    // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+    inject(function($filter, _$log_, _$http_) {
+      $log = _$log_;
+      $http = _$http_;
+      camelize = $filter('camelize');
+      snakelize = $filter('snakelize');
 
-    snaked = {
-      foo: 'bar',
-      boo_bar: 'baz',
-      foo_bar_baz: {
-        foo_bar: [
-          {
-            foo: 'bar',
-            foo_bar: 'baz'
-          },
-          {
-            foo_bar: 'baz'
-          }
-        ]
-      }
-    };
+      // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 
-    // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+      snaked = {
+        foo: 'bar',
+        boo_bar: 'baz',
+        foo_bar_baz: {
+          foo_bar: [
+            {
+              foo: 'bar',
+              foo_bar: 'baz'
+            },
+            {
+              foo_bar: 'baz'
+            }
+          ]
+        }
+      };
 
-    camelized = {
-      foo: 'bar',
-      booBar: 'baz',
-      fooBarBaz: {
-        fooBar: [
-          {
-            foo: 'bar',
-            fooBar: 'baz'
-          },
-          {
-            fooBar: 'baz'
-          }
-        ]
-      }
-    };
+      // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 
-    jsonValid = '{"foo":"bar", "baz":{ "foo":"bar_baz" }}';
+      camelized = {
+        foo: 'bar',
+        booBar: 'baz',
+        fooBarBaz: {
+          fooBar: [
+            {
+              foo: 'bar',
+              fooBar: 'baz'
+            },
+            {
+              fooBar: 'baz'
+            }
+          ]
+        }
+      };
 
-    jsonInvalid = 'foo';
+      jsonValid = '{"foo":"bar", "baz":{ "foo":"bar_baz" }}';
 
-  }));
+      jsonInvalid = 'foo';
+    });
 
-  describe('to Snakecase', function() {
+  });
+
+  describe('SnakeCase', function() {
 
     it('Should convert Object to snake_case', function() {
       expect(snakelize(camelized)).toEqual(snaked);
@@ -91,7 +95,7 @@ describe("ngSnakeCamel", function() {
 
   });
 
-  describe('to Camelcase', function() {
+  describe('CamelCase', function() {
 
     it('Should convert Object to CamelCase', function() {
       expect(camelize(snaked)).toEqual(camelized);

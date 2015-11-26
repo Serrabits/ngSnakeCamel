@@ -9,6 +9,23 @@
     }
   };
 
+  function snakeCamelConfig() {
+    var httpAutomatic = false;
+
+    return {
+      setHttpAutomatic: function(value) {
+        httpAutomatic = !!value;
+      },
+      $get: function() {
+        return {
+          getHttpAutomatic: function() {
+            return httpAutomatic;
+          }
+        };
+      }
+    };
+  };
+
   function snakelize($log) {
     return function(input) {
       if (angular.isDefined(input)) {
@@ -49,8 +66,27 @@
     };
   };
 
+  function makeAutomatics($http, $filter, snakeCamelConfig) {
+    if (snakeCamelConfig.getHttpAutomatic()) {
+
+      function toCamelCase(response) {
+        return $filter('camelize')(response);
+      };
+
+      function toSnakeCase(request) {
+        return $filter('snakelize')(request);
+      };
+
+      $http.defaults.transformResponse.unshift(toCamelCase);
+      $http.defaults.transformRequest.unshift(toSnakeCase);
+
+    }
+  };
+
   angular.module('ngSnakeCamel', [])
+    .provider('snakeCamelConfig', snakeCamelConfig)
     .filter('snakelize', snakelize)
-    .filter('camelize', camelize);
+    .filter('camelize', camelize)
+    .run(makeAutomatics);
 
 })();
