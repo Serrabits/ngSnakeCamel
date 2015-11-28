@@ -1,23 +1,20 @@
-describe("ngSnakeCamel", function() {
+'use strict';
 
+describe("ngSnakeCamel", function() {
   var camelize;
   var snakelize;
   var snaked;
   var camelized;
   var jsonValid;
   var jsonInvalid;
-  var $log;
   var $http;
 
   beforeEach(function() {
-
     module('ngSnakeCamel');
-
-    inject(function($filter, _$log_, _$http_) {
-      $log = _$log_;
+    inject(function($filter, _$http_) {
       $http = _$http_;
-      camelize = $filter('camelize');
-      snakelize = $filter('snakelize');
+      camelize = $filter('camel');
+      snakelize = $filter('snake');
 
       // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 
@@ -59,11 +56,9 @@ describe("ngSnakeCamel", function() {
 
       jsonInvalid = 'foo';
     });
-
   });
 
   describe('SnakeCase', function() {
-
     it('Should convert Object to snake_case', function() {
       expect(snakelize(camelized)).toEqual(snaked);
     });
@@ -77,26 +72,14 @@ describe("ngSnakeCamel", function() {
       expect(angular.isString(snakelize(angular.toJson(camelized)))).toBeTruthy();
     });
 
-    it('Should generate a warn case json is invalid', function() {
-      $log.reset();
-      snakelize(jsonInvalid);
-      expect($log.warn.logs[0][0]).toBe('Snakelize received a invalid JSON');
-    });
-
-    it('Should not generate a warn case json is valid', function() {
-      $log.reset();
-      snakelize(jsonValid);
-      $log.assertEmpty();
-    });
-
-    it('Should be return undefined case input not present', function() {
+    it('Should be return input case is not valid', function() {
+      expect(snakelize(null)).toEqual(null);
+      expect(snakelize(false)).toBeFalsy();
       expect(snakelize()).toBeUndefined();
     });
-
   });
 
   describe('CamelCase', function() {
-
     it('Should convert Object to CamelCase', function() {
       expect(camelize(snaked)).toEqual(camelized);
     });
@@ -110,21 +93,10 @@ describe("ngSnakeCamel", function() {
       expect(angular.isString(camelize(angular.toJson(snaked)))).toBeTruthy();
     });
 
-    it('Should generate a warn case json is invalid', function() {
-      $log.reset();
-      camelize(jsonInvalid);
-      expect($log.warn.logs[0][0]).toBe('Camelize received a invalid JSON');
-    });
-
-    it('Should not generate a warn case json is valid', function() {
-      $log.reset();
-      camelize(jsonValid);
-      $log.assertEmpty();
-    });
-
-     it('Should be return undefined case input not present', function() {
+    it('Should be return input case is not valid', function() {
+      expect(camelize(null)).toEqual(null);
+      expect(camelize(false)).toBeFalsy();
       expect(camelize()).toBeUndefined();
     });
-
   });
 });

@@ -1,92 +1,94 @@
-(function() {
+'use strict';
 
-  function isJson(string) {
-    try {
-      JSON.parse(string);
-      return true;
-    } catch (e) {
-      return false;
-    }
+(function() {
+  var httpTransform = false;
+
+  var JSON_START = /^\[|^\{(?!\{)/;
+  var JSON_ENDS = {
+    '[': /]$/,
+    '{': /}$/
+  };
+
+  function isJsonLike(str, headers) {
+    var type = headers('Content-Type');
+    var jsonStart = str.match(JSON_START);
+    return (type && type.indexOf('application/json') === 0) ||
+      (jsonStart && JSON_ENDS[jsonStart[0]].test(str));
+  };
+
+  function camelizeJson(str) {
+    return str.replace(/(_[a-zA-Z0-9])(?=\w*":)/g, function($1) {
+      return $1[1].toUpperCase().replace('_', '');
+    });
+  };
+
+  function snakelizeJson(str) {
+    return str.replace(/([A-Z](?=[a-zA-Z0-9]*":))/g, function($1) {
+      return '_' + $1.toLowerCase();
+    });
+  };
+
+  function snakelize(data, headers) {
+    var strData = angular.isObject(data) ? angular.toJson(data) : data;
+    return strData && httpTransform && isJsonLike(strData, headers) ?
+      snakelizeJson(strData) :
+      data;
+  };
+
+  function camelize(data, headers) {
+    var strData = angular.isObject(data) ? angular.toJson(data) : data;
+    return strData && httpTransform && isJsonLike(strData, headers) ?
+      camelizeJson(strData) :
+      data;
+  };
+
+  function snakeFilter() {
+    return function(data) {
+      if (data) {
+        var isObject = angular.isObject(data);
+        var strData = isObject ? angular.toJson(data) : data;
+        var jsonSnakelized = snakelizeJson(strData);
+        data = isObject ? angular.fromJson(jsonSnakelized) : jsonSnakelized;
+      }
+      return data;
+    };
+  };
+
+  function camelFilter() {
+    return function(data) {
+     if (data) {
+        var isObject = angular.isObject(data);
+        var strData = isObject ? angular.toJson(data) : data;
+        var jsonCamelized = camelizeJson(strData);
+        data = isObject ? angular.fromJson(jsonCamelized) : jsonCamelized;
+      }
+      return data;
+    };
   };
 
   function snakeCamelConfig() {
-    var httpAutomatic = false;
-
     return {
-      setHttpAutomatic: function(value) {
-        httpAutomatic = !!value;
+      setHttpTransform: function(val) {
+        httpTransform = !!val;
       },
       $get: function() {
         return {
-          getHttpAutomatic: function() {
-            return httpAutomatic;
+          getHttpTransform: function() {
+            return httpTransform;
           }
         };
       }
     };
   };
 
-  function snakelize($log) {
-    return function(input) {
-      if (angular.isDefined(input)) {
-        var isObject = angular.isObject(input);
-        var parsedInput = isObject ? angular.toJson(input) : input;
-
-        if (isJson(parsedInput)) {
-          var snakelized = parsedInput.replace(/([A-Z](?=[a-zA-Z0-9]*":))/g, function($1) {
-            return '_' + $1.toLowerCase();
-          });
-
-          return isObject ? angular.fromJson(snakelized) : snakelized;
-        } else {
-          $log.warn('Snakelize received a invalid JSON');
-          return input;
-        }
-      }
-    };
-  };
-
-  function camelize($log) {
-    return function(input) {
-      if (angular.isDefined(input)) {
-        var isObject = angular.isObject(input);
-        var parsedInput = isObject ? angular.toJson(input) : input;
-
-        if (isJson(parsedInput)) {
-          var camelized = parsedInput.replace(/(_[a-zA-Z0-9])(?=\w*":)/g, function($1) {
-            return $1[1].toUpperCase().replace('_', '');
-          });
-
-          return isObject ? angular.fromJson(camelized) : camelized;
-        } else {
-          $log.warn('Camelize received a invalid JSON');
-          return input;
-        }
-      }
-    };
-  };
-
-  function makeAutomatics($http, $filter, snakeCamelConfig) {
-    if (snakeCamelConfig.getHttpAutomatic()) {
-
-      function toCamelCase(response) {
-        return $filter('camelize')(response);
-      };
-
-      function toSnakeCase(request) {
-        return $filter('snakelize')(request);
-      };
-
-      $http.defaults.transformResponse.unshift(toCamelCase);
-      $http.defaults.transformRequest.unshift(toSnakeCase);
-
-    }
+  function applyHttpTransform($http) {
+    $http.defaults.transformResponse.unshift(camelize);
+    $http.defaults.transformRequest.unshift(snakelize);
   };
 
   angular.module('ngSnakeCamel', [])
-    .provider('snakeCamelConfig', snakeCamelConfig)
-    .filter('snakelize', snakelize)
-    .filter('camelize', camelize)
-    .run(makeAutomatics);
-
+    .provider('snakeCamel', snakeCamelConfig)
+    .filter('snake', snakeFilter)
+    .filter('camel', camelFilter)
+    .run(applyHttpTransform);
 })();
