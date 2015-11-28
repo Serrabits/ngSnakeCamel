@@ -1,5 +1,7 @@
 'use strict';
 
+/*global angular*/
+
 describe("ngSnakeCamel", function() {
   var provider;
   var snakeCamel;
