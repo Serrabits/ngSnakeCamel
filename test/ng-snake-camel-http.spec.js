@@ -1,7 +1,5 @@
 'use strict';
 
-/*global angular*/
-
 describe("ngSnakeCamel", function() {
   var provider;
   var snakeCamel;
@@ -28,8 +26,13 @@ describe("ngSnakeCamel", function() {
     snakeCamel.setHttpTransform(false);
   });
 
-  describe('Getter and Setter provider', function() {
+  describe('Test tools', function() {
+    it('should get name of function', function() {
+      expect(funcName(function fooBarBaz() {})).toBe('fooBarBaz');
+    });
+  });
 
+  describe('Getter and Setter provider', function() {
     it('should get value of http transform', function() {
       expect(provider.getHttpTransform()).toBeDefined();
     });
@@ -45,12 +48,12 @@ describe("ngSnakeCamel", function() {
   });
 
   describe('Http', function() {
-    it('should add camelize in transform response', function() {
-      expect(funcName($http.defaults.transformResponse[0])).toBe('camelize');
+    it('should add camelHttp in transform response', function() {
+      expect(funcName($http.defaults.transformResponse[0])).toBe('camelHttp');
     });
 
-    it('should add snakelize in transform request', function() {
-      expect(funcName($http.defaults.transformRequest[0])).toBe('snakelize');
+    it('should add snakeHttp in transform request', function() {
+      expect(funcName($http.defaults.transformRequest[0])).toBe('snakeHttp');
     });
 
     it('should convert snake/camel when httpTranform is true', function() {

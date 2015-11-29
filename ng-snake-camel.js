@@ -18,29 +18,29 @@
       (jsonStart && JSON_ENDS[jsonStart[0]].test(str));
   }
 
-  function camelizeJson(str) {
+  function camelJson(str) {
     return str.replace(/(_[a-zA-Z0-9])(?=\w*":)/g, function($1) {
       return $1[1].toUpperCase().replace('_', '');
     });
   }
 
-  function snakelizeJson(str) {
+  function snakeJson(str) {
     return str.replace(/([A-Z](?=[a-zA-Z0-9]*":))/g, function($1) {
       return '_' + $1.toLowerCase();
     });
   }
 
-  function snakelize(data, headers) {
+  function snakeHttp(data, headers) {
     var strData = angular.isObject(data) ? angular.toJson(data) : data;
     return strData && httpTransform && isJsonLike(strData, headers) ?
-      snakelizeJson(strData) :
+      snakeJson(strData) :
       data;
   }
 
-  function camelize(data, headers) {
+  function camelHttp(data, headers) {
     var strData = angular.isObject(data) ? angular.toJson(data) : data;
     return strData && httpTransform && isJsonLike(strData, headers) ?
-      camelizeJson(strData) :
+      camelJson(strData) :
       data;
   }
 
@@ -49,7 +49,7 @@
       if (data) {
         var isObject = angular.isObject(data);
         var strData = isObject ? angular.toJson(data) : data;
-        var jsonSnakelized = snakelizeJson(strData);
+        var jsonSnakelized = snakeJson(strData);
         data = isObject ? angular.fromJson(jsonSnakelized) : jsonSnakelized;
       }
       return data;
@@ -61,7 +61,7 @@
       if (data) {
         var isObject = angular.isObject(data);
         var strData = isObject ? angular.toJson(data) : data;
-        var jsonCamelized = camelizeJson(strData);
+        var jsonCamelized = camelJson(strData);
         data = isObject ? angular.fromJson(jsonCamelized) : jsonCamelized;
       }
       return data;
@@ -84,8 +84,8 @@
   }
 
   function applyHttpTransform($http) {
-    $http.defaults.transformResponse.unshift(camelize);
-    $http.defaults.transformRequest.unshift(snakelize);
+    $http.defaults.transformResponse.unshift(camelHttp);
+    $http.defaults.transformRequest.unshift(snakeHttp);
   }
 
   angular.module('ngSnakeCamel', [])
