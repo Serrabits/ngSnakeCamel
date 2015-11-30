@@ -1,7 +1,7 @@
 {
   "name": "ng-snake-camel",
-  "version": "0.0.1",
-  "description": "Convert JSON to Camel or Snake is simple",
+  "version": "1.0.0",
+  "description": "AngularJS $filter and $http convert JSON to snake ou camelcase",
   "main": "ng-snake-camel.js",
   "directories": {
     "test": "test"
@@ -35,7 +35,10 @@
     "camelcase",
     "json",
     "angular",
-    "filter"
+    "$filter",
+    "$http",
+    "transformRequest",
+    "transformResponse"
   ],
   "author": "Junior Conte <juniorcnt@gmail.com>",
   "bugs": {
