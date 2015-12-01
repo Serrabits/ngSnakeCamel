@@ -15,7 +15,7 @@ This angular module has no external dependencies, and can act automatically unde
 The easiest way to install is using [bower](http://bower.io/search/?q=ng-snake-camel)
 
 ```
-bower install --save ngSnakeCamel
+bower install --save ng-snake-camel
 ```
 
 Alternatively you can download from the GitHub project:
