@@ -59,7 +59,7 @@ angular.module ('myApp' ['ngSnakeCamel'])
 To apply the transformation request by request, set the [$http configs](https://code.angularjs.org/1.4.0/docs/api/ng/service/$http) `transformRequest` and `transformResponse` as follows:
 
 ```
-$http.post(Api.rest(userUri), {
+$http.post(http://example.com, {
 	transformRequest: function(data) {
 		return $filter('snake')(angular.toJson(data));
     },
