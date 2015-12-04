@@ -10,6 +10,10 @@ A cleaner way to keep your standard JS objects in camelcase communicating to sta
 This angular module has no external dependencies, and can act automatically under `$http` "with defaults `transFormRequest` and `transformResponse`" or can be used as `$filter('snake')` or `$filter('camel')` anywhere in your view or controller.
 
 
+## Live demo
+
+### [http://embed.plnkr.co/p431U6/](http://embed.plnkr.co/p431U6/)
+
 ## Get It
 
 The easiest way to install is using [bower](http://bower.io/search/?q=ng-snake-camel)
