@@ -8,6 +8,7 @@ A cleaner way to keep your standard JS objects in camelcase communicating to sta
 
 This angular module has no external dependencies, and can act automatically under `$http` "with defaults `transFormRequest` and `transformResponse`" or can be used as `$filter('snake')` or `$filter('camel')` anywhere in your view or controller.
 
+# Compatible with AngularJS 1.4.X
 
 ## Live demo
 
